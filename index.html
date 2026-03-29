@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cool Cat's Cafe</title>
+    <script>
+      (function() {
+        try {
+          const descriptor = Object.getOwnPropertyDescriptor(window, 'fetch');
+          if (descriptor && !descriptor.writable && !descriptor.set && descriptor.configurable) {
+            const originalFetch = window.fetch;
+            Object.defineProperty(window, 'fetch', {
+              get: function() { return originalFetch; },
+              set: function() { console.warn('Prevented attempt to overwrite read-only window.fetch'); },
+              configurable: true,
+              enumerable: true
+            });
+          }
+        } catch (e) {
+          // Ignore errors during property definition
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

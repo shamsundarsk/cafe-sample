@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bebas Neue", "Anton", sans-serif;
+  --font-sans: "Inter", "Poppins", sans-serif;
+  --color-brand-blue: #0D1B8C;
+  --color-brand-beige: #F5EBDC;
+  --color-brand-orange: #FF7A00;
+  --color-brand-yellow: #FACC15;
+}
+
+:root {
+  --brand-blue: #0D1B8C;
+  --brand-beige: #F5EBDC;
+  --brand-orange: #FF7A00;
+}
+
+body {
+  @apply font-sans bg-brand-beige text-brand-blue overflow-x-hidden antialiased;
+  cursor: none; /* Hide default cursor for custom one */
+}
+
+/* Grain / Texture Overlay */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+}
+
+/* Scroll Progress */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: var(--brand-orange);
+  z-index: 10001;
+  width: 0%;
+}
+
+/* Section Transitions */
+section {
+  @apply relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden;
+}
+
+/* Typography Helpers */
+.heading-huge {
+  @apply font-display text-[15vw] leading-[0.8] uppercase tracking-tighter;
+}
+
+.text-punchy {
+  @apply text-2xl md:text-4xl font-bold uppercase tracking-tight;
+}
+
+/* Hand-drawn Doodle Style */
+.doodle {
+  @apply filter drop-shadow-md;
+}
+
+/* Smooth Scroll Container */
+#smooth-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+#smooth-content {
+  overflow: visible;
+  width: 100%;
+}
+
+/* Custom Animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glassmorphism */
+.glass {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}
+
+/* Neo-brutalism Shadow */
+.shadow-neo {
+  box-shadow: 10px 10px 0px 0px var(--brand-blue);
+}
+
+.shadow-neo-orange {
+  box-shadow: 10px 10px 0px 0px var(--brand-orange);
+}
