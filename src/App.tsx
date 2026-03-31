@@ -131,18 +131,18 @@ const Hero = () => {
         <p className="text-punchy hero-text mt-4 opacity-80">A DAY IN THE LIFE OF A COOL CAT.</p>
       </div>
       
-      <div ref={catRef} className="absolute bottom-32 flex flex-col items-center pointer-events-none">
+      <div ref={catRef} className="absolute bottom-20 md:bottom-32 flex flex-col items-center pointer-events-none">
         <div className="relative">
-          <Cat size={120} className="text-brand-orange doodle" />
+          <Cat size={80} className="md:size-[120px] text-brand-orange doodle" />
           <motion.div 
             animate={{ scale: [1, 1.2, 1], rotate: [0, 5, -5, 0] }}
             transition={{ repeat: Infinity, duration: 3 }}
-            className="absolute -top-8 -right-8"
+            className="absolute -top-6 -right-6 md:-top-8 md:-right-8"
           >
-            <Coffee size={50} className="text-brand-beige" />
+            <Coffee size={30} className="md:size-[50px] text-brand-beige" />
           </motion.div>
         </div>
-        <div className="mt-4 bg-brand-beige text-brand-blue px-4 py-1 rounded-full text-xs font-bold shadow-lg">
+        <div className="mt-4 bg-brand-beige text-brand-blue px-3 py-1 rounded-full text-[10px] md:text-xs font-bold shadow-lg">
           NEED... CAFFEINE...
         </div>
       </div>
@@ -336,32 +336,112 @@ const Shakes = () => {
           scrub: true
         }
       });
-
-      // Text animations
-      gsap.from(".shake-title-1", {
-        x: -100,
-        opacity: 0,
-        scrollTrigger: { trigger: sectionRef.current, start: "top center+=100", scrub: true }
-      });
-      gsap.from(".shake-title-2", {
-        y: 100,
-        opacity: 0,
-        scrollTrigger: { trigger: sectionRef.current, start: "top center+=200", scrub: true }
-      });
-      gsap.from(".shake-title-3", {
-        scale: 0.5,
-        opacity: 0,
-        scrollTrigger: { trigger: sectionRef.current, start: "top center+=300", scrub: true }
-      });
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-brand-beige text-brand-blue relative overflow-hidden flex items-center justify-center">
-       {/* Layered Text - Fixed Positioning */}
-       <div className="absolute top-20 left-10 md:left-20 z-0">
+    <section ref={sectionRef} className="bg-brand-beige text-brand-blue relative overflow-hidden flex flex-col items-center justify-center py-20 lg:py-0">
+       {/* Mobile-Friendly Text Stack (visible only on mobile/tablet) */}
+       <div className="lg:hidden flex flex-col items-center justify-center w-full min-h-screen px-4 space-y-12 py-20 z-10">
+         <motion.h2 
+           initial={{ y: 50, opacity: 0 }}
+           whileInView={{ y: 0, opacity: 1 }}
+           className="text-[clamp(3rem,15vw,8rem)] font-display font-black leading-none text-brand-blue tracking-tighter"
+         >
+           THICK.
+         </motion.h2>
+         
+         {/* Glass in the center of the stack on mobile */}
+         <div className="relative shake-glass-container scale-[0.7] md:scale-90 lg:scale-110 liquid-vibe flex items-center justify-center h-[520px] my-4">
+            <div className="relative w-56 h-[400px] md:w-64 md:h-[480px] border-[10px] md:border-[14px] border-brand-blue rounded-b-[4rem] md:rounded-b-[5rem] rounded-t-lg md:rounded-t-xl overflow-hidden glass shadow-2xl">
+              {/* Liquid Layer with Wave distortion */}
+              <div 
+                ref={fillRef} 
+                className="absolute bottom-0 left-0 w-full bg-brand-orange h-0 origin-bottom"
+                style={{ filter: 'url(#liquid-wobble)' }}
+              >
+                 <motion.div 
+                   animate={{ y: [0, -5, 0], scaleX: [1, 1.05, 1] }}
+                   transition={{ repeat: Infinity, duration: 4 }}
+                   className="absolute top-0 left-0 w-full h-12 bg-white/30 rounded-full blur-md"
+                 />
+                 
+                 {Array.from({ length: 12 }).map((_, i) => (
+                   <motion.div
+                     key={i}
+                     animate={{ 
+                       y: [400, -50], 
+                       x: [0, Math.sin(i) * 20, 0],
+                       opacity: [0, 1, 0] 
+                     }}
+                     transition={{ 
+                       repeat: Infinity, 
+                       duration: 3 + Math.random() * 2, 
+                       delay: Math.random() * 2 
+                     }}
+                     className="absolute w-2 h-2 bg-white/40 rounded-full"
+                     style={{ left: `${15 + Math.random() * 70}%` }}
+                   />
+                 ))}
+
+                 {Array.from({ length: 4 }).map((_, i) => (
+                   <motion.div
+                     key={i}
+                     animate={{ 
+                       y: [0, -15, 0],
+                       rotate: [0, 10, 0]
+                     }}
+                     transition={{ repeat: Infinity, duration: 4 + i, ease: "easeInOut" }}
+                     className="absolute bottom-[20%] w-10 h-10 bg-white/20 rounded-md border border-white/10"
+                     style={{ left: `${10 + i * 25}%`, bottom: `${10 + (i % 2) * 20}%` }}
+                   />
+                 ))}
+              </div>
+
+              <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none" />
+              
+              <div ref={strawRef} className="absolute top-[-80px] left-1/2 -translate-x-1/2 w-8 h-[600px] bg-brand-blue/20 rounded-full border-x-4 border-brand-blue/10 backdrop-blur-sm z-30 flex items-center justify-center">
+                 <div className="w-1 h-full bg-brand-blue/5" />
+              </div>
+            </div>
+         </div>
+
+         <div className="flex flex-col items-center gap-10">
+           <motion.h2 
+             initial={{ y: 50, opacity: 0 }}
+             whileInView={{ y: 0, opacity: 1 }}
+             transition={{ delay: 0.1 }}
+             className="text-[clamp(3.1rem,15vw,8rem)] font-display font-black leading-none text-brand-blue tracking-tighter"
+           >
+             COLD.
+           </motion.h2>
+           <motion.h2 
+             initial={{ y: 50, opacity: 0 }}
+             whileInView={{ y: 0, opacity: 1 }}
+             transition={{ delay: 0.2 }}
+             className="text-[clamp(3.1rem,15vw,8rem)] font-display font-black leading-none text-brand-orange tracking-tighter"
+           >
+             ADDICTIVE.
+           </motion.h2>
+         </div>
+
+         {/* SVG Filter for liquid wobble (reused locally for clarity) */}
+         <svg className="hidden">
+           <defs>
+             <filter id="liquid-wobble">
+               <feTurbulence type="fractalNoise" baseFrequency="0.015 0.03" numOctaves="4" result="noise">
+                 <animate attributeName="baseFrequency" values="0.015 0.03; 0.03 0.06; 0.015 0.03" dur="8s" repeatCount="indefinite" />
+               </feTurbulence>
+               <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" />
+             </filter>
+           </defs>
+         </svg>
+       </div>
+
+       {/* Desktop Layered Text (visible only on desktop) */}
+       <div className="hidden lg:block absolute top-20 left-20 z-0">
          <motion.h2 
            initial={{ x: -100, opacity: 0 }}
            whileInView={{ x: 0, opacity: 1 }}
@@ -370,7 +450,7 @@ const Shakes = () => {
            THICK.
          </motion.h2>
        </div>
-       <div className="absolute top-[45%] left-10 md:left-20 -translate-y-1/2 z-0">
+       <div className="hidden lg:block absolute top-[45%] left-20 -translate-y-1/2 z-0">
          <motion.h2 
            initial={{ x: -100, opacity: 0 }}
            whileInView={{ x: 0, opacity: 1 }}
@@ -380,34 +460,32 @@ const Shakes = () => {
            COLD.
          </motion.h2>
        </div>
-       <div className="absolute bottom-20 right-10 md:right-20 z-0">
+       <div className="hidden lg:block absolute bottom-20 right-20 z-0">
          <motion.h2 
            initial={{ x: 100, opacity: 0 }}
            whileInView={{ x: 0, opacity: 1 }}
            transition={{ delay: 0.2 }}
-           className="text-[10vw] font-display font-black leading-none text-brand-orange"
+           className="text-[10vw] font-display font-black leading-none text-brand-orange text-right"
          >
            ADDICTIVE.
          </motion.h2>
        </div>
         
-        <div ref={glassRef} className="relative shake-glass-container z-10 scale-90 md:scale-110 liquid-vibe flex items-center justify-center">
+       {/* Desktop Glass */}
+       <div ref={glassRef} className="hidden lg:flex shake-glass-container z-10 lg:scale-110 liquid-vibe items-center justify-center relative">
           <div className="relative w-64 h-[480px] border-[14px] border-brand-blue rounded-b-[5rem] rounded-t-xl overflow-hidden glass shadow-2xl">
-            
             {/* Liquid Layer with Wave distortion */}
             <div 
               ref={fillRef} 
               className="absolute bottom-0 left-0 w-full bg-brand-orange h-0 origin-bottom"
               style={{ filter: 'url(#liquid-wobble)' }}
             >
-               {/* Foam layer top */}
                <motion.div 
                  animate={{ y: [0, -5, 0], scaleX: [1, 1.05, 1] }}
                  transition={{ repeat: Infinity, duration: 4 }}
                  className="absolute top-0 left-0 w-full h-12 bg-white/30 rounded-full blur-md"
                />
                
-               {/* Bubble particles */}
                {Array.from({ length: 12 }).map((_, i) => (
                  <motion.div
                    key={i}
@@ -426,7 +504,6 @@ const Shakes = () => {
                  />
                ))}
 
-               {/* Floating Ice Cubes */}
                {Array.from({ length: 4 }).map((_, i) => (
                  <motion.div
                    key={i}
@@ -441,39 +518,26 @@ const Shakes = () => {
                ))}
             </div>
 
-            {/* Shine/Gloss diagonal layer */}
             <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none" />
             
-            {/* Straw */}
             <div ref={strawRef} className="absolute top-[-80px] left-1/2 -translate-x-1/2 w-8 h-[600px] bg-brand-blue/20 rounded-full border-x-4 border-brand-blue/10 backdrop-blur-sm z-30 flex items-center justify-center">
                <div className="w-1 h-full bg-brand-blue/5" />
             </div>
           </div>
-          
-          {/* SVG Filter for liquid wobble */}
-          <svg className="hidden">
-            <defs>
-              <filter id="liquid-wobble">
-                <feTurbulence type="fractalNoise" baseFrequency="0.015 0.03" numOctaves="4" result="noise">
-                  <animate attributeName="baseFrequency" values="0.015 0.03; 0.03 0.06; 0.015 0.03" dur="8s" repeatCount="indefinite" />
-                </feTurbulence>
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" />
-              </filter>
-            </defs>
-          </svg>
-        </div>
+       </div>
 
-        {/* Parallax background cat */}
-        <motion.div 
-          animate={{ y: [0, -40, 0], rotate: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 6 }}
-          className="absolute -bottom-20 -right-20 opacity-10 pointer-events-none z-0"
-        >
-          <Cat size={400} />
-        </motion.div>
+       {/* Parallax background cat */}
+       <motion.div 
+         animate={{ y: [0, -40, 0], rotate: [0, 5, 0] }}
+         transition={{ repeat: Infinity, duration: 6 }}
+         className="absolute -bottom-20 -right-20 opacity-10 pointer-events-none z-0"
+       >
+         <Cat size={400} />
+       </motion.div>
     </section>
   );
 };
+
 
 const Burger = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -502,7 +566,7 @@ const Burger = () => {
            {/* Layered Burger Assembly - Scaled up */}
            <motion.div 
              style={{ scale }}
-             className="relative w-96 h-96 md:w-[650px] md:h-[650px] flex flex-col items-center justify-center cursor-pointer group scale-125"
+             className="relative w-64 h-64 md:w-96 md:h-96 lg:w-[650px] lg:h-[650px] flex flex-col items-center justify-center cursor-pointer group scale-100 md:scale-125"
            >
               {/* Top Bun */}
               <motion.div 
@@ -602,16 +666,92 @@ const Burger = () => {
 };
 
 const Pizza = () => {
-  const [dragX, setDragX] = useState(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const toppingRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Create the falling toppings animation
+      toppingRefs.current.forEach((topping, i) => {
+        if (!topping) return;
+        
+        // Initial state
+        gsap.set(topping, { 
+          y: -1000, 
+          opacity: 0, 
+          rotation: Math.random() * 360,
+          scale: 0.8
+        });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "restart none restart none", // Important: restart on re-entry from bottom
+            onEnter: () => tl.restart(),
+            onEnterBack: () => tl.restart(),
+          }
+        });
+
+        tl.to(topping, { 
+          y: 0, 
+          opacity: 1,
+          rotation: Math.random() * 40 - 20,
+          scale: 1,
+          duration: 0.8 + Math.random() * 0.4,
+          ease: "back.out(1.7)", // Physical bounce feel
+          delay: i * 0.04,
+        });
+
+        // Add subtle constant rotation "float" after landing
+        gsap.to(topping, {
+          rotate: "+=10",
+          duration: 2 + Math.random() * 2,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      });
+
+      // Pizza Container Parallax & Tilt (Syncs base and toppings)
+      gsap.to(".pizza-container", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.5
+        },
+        y: 80, // Reduced vertical movement
+        rotate: 15,
+        scale: 1.05
+      });
+
+      // Floating particles around pizza
+      gsap.to(".pizza-extra", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 2
+        },
+        y: -150,
+        x: (i) => i % 2 === 0 ? 50 : -50,
+        rotate: (i) => i * 45
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="bg-brand-beige text-brand-blue relative overflow-hidden flex items-center justify-center">
-      <div className="max-w-4xl mx-auto text-center space-y-16 z-10 px-6 flex flex-col items-center justify-center">
-        <div className="space-y-8 md:space-y-12">
+    <section ref={sectionRef} className="bg-brand-beige text-brand-blue relative overflow-hidden flex items-center justify-center py-20">
+      <div className="max-w-4xl mx-auto text-center space-y-6 z-10 px-6 flex flex-col items-center justify-center">
+        <div className="space-y-0">
           <motion.h2 
             initial={{ x: -100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
-            className="heading-huge font-black leading-[1.2] tracking-wide"
+            className="text-[18vw] md:text-[10vw] font-display font-black leading-[1.1] tracking-tight"
           >
             SHARE
           </motion.h2>
@@ -619,77 +759,85 @@ const Pizza = () => {
             initial={{ x: 100, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="heading-huge text-brand-orange font-black leading-[1.2] tracking-wide"
+            className="text-[18vw] md:text-[10vw] font-display font-black leading-[1.1] tracking-tight text-brand-orange"
           >
-            IF YOU CAN.
+            IF YOU CAN
           </motion.h2>
         </div>
         
-        <div className="relative flex justify-center items-center mt-20">
+        <div className="pizza-container relative flex justify-center items-center mt-4">
           {/* Main Pizza Body (The Base) */}
-          <div className="relative w-80 h-80 md:w-[500px] md:h-[500px] bg-[#E67E22] rounded-full border-[14px] border-[#D35400] shadow-2xl">
+          <div className="pizza-base relative w-64 h-64 md:w-80 md:h-80 lg:w-[500px] lg:h-[500px] bg-[#E67E22] rounded-full border-[10px] md:border-[14px] border-[#D35400] shadow-2xl">
             {/* Cheese Layer */}
             <div className="absolute inset-4 bg-yellow-400 rounded-full shadow-inner" />
             
-            {/* Toppings on Base */}
-            {Array.from({ length: 8 }).map((_, i) => (
+            {/* Static background toppings for depth */}
+            {Array.from({ length: 6 }).map((_, i) => (
               <div
-                key={i}
+                key={`static-${i}`}
                 className={cn(
-                  "absolute w-10 h-10 md:w-16 md:h-16 rounded-full shadow-md z-10",
-                  i % 2 === 0 ? "bg-red-700" : "bg-black w-4 h-4 md:w-6 md:h-6"
+                  "absolute w-10 h-10 md:w-16 md:h-16 rounded-full opacity-40 z-10",
+                  i % 2 === 0 ? "bg-red-800" : "bg-black w-4 h-4 md:w-6 md:h-6"
                 )}
                 style={{ 
-                  top: `${25 + Math.random() * 50}%`, 
-                  left: `${25 + Math.random() * 50}%` 
+                  top: `${45 + Math.sin(i * 137.5) * (Math.random() * 30)}%`, 
+                  left: `${45 + Math.cos(i * 137.5) * (Math.random() * 30)}%` 
                 }}
               />
             ))}
-            
-            {/* The Draggable Slice (Independent Element) */}
-            <motion.div 
-              drag="x"
-              dragConstraints={{ left: 0, right: 300 }}
-              dragElastic={0.1}
-              onDrag={(e, info) => setDragX(info.offset.x)}
-              onDragEnd={() => setDragX(0)}
-              animate={{ x: dragX, rotate: dragX / 20 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="absolute top-0 right-0 w-1/2 h-1/2 bg-[#E67E22] cursor-grab active:cursor-grabbing origin-bottom-left z-30 shadow-[10px_-10px_20px_rgba(0,0,0,0.3)]"
-              style={{ clipPath: 'polygon(0% 100%, 100% 0%, 100% 100%)' }}
-            >
-               {/* Slice Cheese */}
-               <div className="absolute inset-0 bg-yellow-400" style={{ clipPath: 'polygon(5% 95%, 95% 5%, 95% 95%)' }} />
-               {/* Slice Toppings */}
-               <div className="absolute inset-0 z-10 flex items-center justify-center -rotate-45 translate-x-12 translate-y-4">
-                  <div className="w-12 h-12 md:w-20 md:h-20 bg-red-700 rounded-full shadow-lg" />
-               </div>
-            </motion.div>
+          </div>
 
-            {/* Elastic Cheese Pull Strands */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
-               {[10, 0, -10].map((offset, i) => (
-                 <motion.path 
-                   key={i}
-                   d={`M 250 250 L ${250 + dragX} ${250 - dragX/3 + offset} Q ${250 + dragX/1.5} ${250 - dragX/6} 250 250`}
-                   stroke="#F1C40F"
-                   strokeWidth={8 - Math.abs(offset)/2}
-                   strokeLinecap="round"
-                   fill="none"
-                   transition={{ type: "spring", stiffness: 400, damping: 25, delay: i * 0.02 }}
-                   style={{ 
-                     opacity: dragX > 20 ? 0.9 : 0,
-                     scale: 1 + dragX/1000
-                   }}
-                 />
-               ))}
-            </svg>
+          {/* Floating extra ingredients in background */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div
+                key={`extra-${i}`}
+                className={cn(
+                  "pizza-extra absolute w-8 h-8 md:w-16 md:h-16 rounded-full opacity-20",
+                  i % 2 === 0 ? "bg-red-500 scale-150" : "bg-green-500 scale-75"
+                )}
+                style={{ 
+                  top: `${Math.random() * 100}%`, 
+                  left: `${Math.random() * 100}%` 
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Falling Toppings Container (Outside the overflow-hidden base) */}
+          <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center">
+            <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[500px] lg:h-[500px]">
+              {Array.from({ length: 15 }).map((_, i) => (
+                <div
+                  key={i}
+                  ref={el => toppingRefs.current[i] = el}
+                  className={cn(
+                    "absolute shadow-xl",
+                    i % 4 === 0 
+                      ? "bg-red-600 w-12 h-12 md:w-20 md:h-20 rounded-full border-b-4 border-red-800" // Large Pepperoni
+                      : i % 4 === 1 
+                        ? "bg-black w-5 h-5 md:w-8 md:h-8 rounded-full border-b-2 border-gray-900" // Olive
+                        : i % 4 === 2
+                          ? "bg-green-600 w-10 h-8 md:w-14 md:h-12 rounded-[40% 60% 70% 30% / 40% 50% 60% 50%]" // Basil Leaf
+                          : "bg-red-500 w-8 h-8 md:w-12 md:h-12 rounded-full border-b-2 border-red-700" // Small Pepperoni
+                  )}
+                  style={{ 
+                    top: `${45 + Math.sin(i * 137.5) * (Math.sqrt((i + 1) / 15) * 35)}%`, 
+                    left: `${45 + Math.cos(i * 137.5) * (Math.sqrt((i + 1) / 15) * 35)}%` 
+                  }}
+                >
+                  {/* Topping details */}
+                  {i % 4 === 0 && <div className="absolute inset-3 border-2 border-red-900/10 rounded-full" />}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
 };
+
 
 const Sandwich = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -777,7 +925,7 @@ const Drinks = () => {
           initial={{ filter: "blur(20px)", opacity: 0 }}
           whileInView={{ filter: "blur(0px)", opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="heading-huge"
+          className="heading-huge leading-[1.1] md:leading-[0.8]"
         >
           COOL DOWN.
         </motion.h2>
@@ -891,7 +1039,7 @@ const Characters = () => {
           <p className="text-punchy text-brand-orange">WE SERVE FRIENDS, NOT CUSTOMERS.</p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
           {crew.map((char, i) => (
              <motion.div
                key={i}
@@ -983,7 +1131,7 @@ const Menu = () => {
                 ease: "easeInOut",
                 repeat: Infinity
               }}
-              className="absolute -right-8 md:-right-20 top-1/2 -translate-y-1/2 text-8xl md:text-[11rem] z-0 select-none opacity-30 md:opacity-90 pointer-events-none"
+              className="absolute -right-4 md:-right-8 lg:-right-20 top-1/2 -translate-y-1/2 text-6xl md:text-8xl lg:text-[11rem] z-0 select-none opacity-20 md:opacity-30 lg:opacity-90 pointer-events-none"
             >
               👋
               {/* Wave Lines (Motion Lines) */}
@@ -1003,9 +1151,9 @@ const Menu = () => {
               </svg>
             </motion.div>
 
-            <h2 className="heading-huge font-black leading-[1.4] flex flex-col gap-4 md:gap-8 relative z-20 pointer-events-none tracking-normal">
-              <span>HI</span>
-              <span className="text-brand-orange">FRIEND</span>
+            <h2 className="heading-huge font-black leading-[1.4] flex flex-col gap-4 md:gap-8 relative z-20 pointer-events-none tracking-normal md:leading-[1.1] md:text-[10vw]">
+              <span>H I</span>
+              <span className="text-brand-orange">N A N B A</span>
             </h2>
           </div>
           
@@ -1066,21 +1214,23 @@ const Menu = () => {
 
 const FinalCTA = () => {
   return (
-    <section className="bg-brand-blue text-brand-beige">
-      <div className="text-center space-y-12 z-10">
-        <h2 className="heading-huge">YOU’VE SCROLLED THIS FAR...</h2>
+    <section className="bg-brand-blue text-brand-beige px-6 py-32 md:py-48">
+      <div className="text-center space-y-8 md:space-y-16 z-10 max-w-6xl mx-auto">
+        <h2 className="text-[14vw] md:text-[8vw] font-display font-black leading-[1.1] md:leading-[1.1] tracking-tight md:tracking-normal uppercase">
+          YOU’VE SCROLLED THIS FAR...
+        </h2>
         <p className="text-punchy opacity-80">NOW COME TASTE IT.</p>
         
         <motion.button 
           animate={{ scale: [1, 1.05, 1], boxShadow: ["0 0 0px rgba(255,122,0,0)", "0 0 20px rgba(255,122,0,0.5)", "0 0 0px rgba(255,122,0,0)"] }}
           transition={{ repeat: Infinity, duration: 2 }}
-          className="bg-brand-orange text-white px-12 py-6 rounded-full font-display text-4xl tracking-widest hover:scale-110 transition-transform shadow-2xl"
+          className="bg-brand-orange text-white px-8 py-4 md:px-12 md:py-6 rounded-full font-display text-2xl md:text-4xl tracking-widest hover:scale-110 transition-transform shadow-2xl"
         >
           VISIT US NOW
         </motion.button>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-40">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-40 pointer-events-none">
         <Cat size={60} />
         <p className="text-xs font-bold tracking-widest mt-2 uppercase">See you soon!</p>
       </div>
@@ -1142,19 +1292,15 @@ export default function App() {
           <Characters />
           <Menu />
           <FinalCTA />
+          <footer className="bg-brand-blue text-brand-beige/40 font-bold text-[10px] tracking-widest uppercase py-10 flex flex-col md:flex-row items-center justify-center gap-6 px-6">
+            <p>KOCHI, KERALA</p>
+            <div className="hidden md:block w-1 h-1 bg-brand-blue/20 rounded-full" />
+            <p>EST. 2024</p>
+            <div className="hidden md:block w-1 h-1 bg-brand-blue/20 rounded-full" />
+            <p>© COOL CAT'S CAFE 2026</p>
+          </footer>
         </div>
       </main>
-
-      {/* Footer-like small info */}
-      <div className="fixed bottom-8 left-8 z-50 flex items-center gap-4 text-brand-blue/40 font-bold text-[10px] tracking-widest uppercase pointer-events-none">
-        <MapPin size={12} /> KOCHI, KERALA
-        <div className="w-1 h-1 bg-brand-blue/20 rounded-full" />
-        EST. 2024
-      </div>
-      
-      <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4 text-brand-blue/40 font-bold text-[10px] tracking-widest uppercase pointer-events-none">
-        COOL CAT'S CAFE © 2026
-      </div>
     </div>
   );
 }

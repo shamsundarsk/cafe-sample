@@ -63,7 +63,7 @@ section {
 
 /* Typography Helpers */
 .heading-huge {
-  @apply font-display text-[15vw] leading-[0.8] uppercase tracking-tighter;
+  @apply font-display text-[18vw] md:text-[15vw] leading-[0.9] md:leading-[0.8] uppercase tracking-tight md:tracking-tighter;
 }
 
 .text-punchy {
